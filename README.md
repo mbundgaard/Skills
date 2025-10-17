@@ -11,7 +11,15 @@ Each skill is built from analysis of production codebases and validated across m
 ## Available Skills
 
 ### Enterprise Integration
-- **[Simphony Extension Application Development](./simphony-extension-development/)** - Comprehensive patterns for Oracle Simphony POS integration development based on analysis of 6 production projects (721 C# files)
+- **[Simphony Extension Application Development](./simphony-extension-skill/)** - Comprehensive patterns for Oracle Simphony POS integration development based on analysis of 6 production projects (721 C# files)
+
+## Installation
+
+To use these skills with Claude Code:
+
+1. **Add the marketplace**: Run `claude plugin add mbundgaard/Skills` in your terminal
+2. **Install the plugin**: Run `claude plugin install enterprise-integration-skills`
+3. **Activate skills**: The skills will be automatically available when working on relevant projects
 
 
 
