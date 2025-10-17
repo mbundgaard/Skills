@@ -1,0 +1,17 @@
+{
+  "name": "Enterprise Development Skills",
+  "description": "Production-validated development patterns and specialized knowledge for enterprise software development",
+  "version": "1.0.0",
+  "author": "mbundgaard",
+  "plugins": [
+    {
+      "name": "simphony-extension-development",
+      "displayName": "Simphony Extension Application Development",
+      "description": "Comprehensive patterns and templates for developing Oracle Simphony Extension Applications. Covers universal mandatory patterns, scale-appropriate designs, and domain-specific implementations across 6 architectural categories.",
+      "version": "1.0.0",
+      "path": "./simphony-extension-development",
+      "tags": ["simphony", "oracle", "pos", "enterprise", "integration", "c#", "dotnet"],
+      "category": "Enterprise Integration"
+    }
+  ]
+}
