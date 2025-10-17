@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Simphony Extension Application Project File Template
+  Universal Mandatory Pattern - 100% consistent across all 5 projects
+
+  CRITICAL SETTINGS:
+  - TargetFrameworkVersion: v4.6.2 (REQUIRED)
+  - PlatformTarget: x86 (REQUIRED - Simphony is 32-bit)
+  - OutputPath: bin\Debug\ or bin\Release\
+  - PostBuildEvent: Auto-deploy to Simphony directory
+
+  REPLACE TOKENS:
+  - YourExtensionName: Your extension's name (e.g., "MunerisTimeKeeping")
+  - YourNamespace: Root namespace (e.g., "Muneris")
+-->
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+
+  <!-- ================================================================ -->
+  <!-- PROJECT CONFIGURATION -->
+  <!-- ================================================================ -->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{GENERATE-NEW-GUID-HERE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YourNamespace</RootNamespace>
+    <AssemblyName>YourExtensionName</AssemblyName>
+
+    <!-- CRITICAL: Must be .NET Framework 4.6.2 -->
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+
+  <!-- ================================================================ -->
+  <!-- DEBUG CONFIGURATION -->
+  <!-- ================================================================ -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+
+    <!-- CRITICAL: Must be x86 (Simphony is 32-bit) -->
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <!-- ================================================================ -->
+  <!-- RELEASE CONFIGURATION -->
+  <!-- ================================================================ -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+
+    <!-- CRITICAL: Must be x86 (Simphony is 32-bit) -->
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <!-- ================================================================ -->
+  <!-- SIMPHONY REFERENCES (Required DLLs) -->
+  <!-- ================================================================ -->
+  <ItemGroup>
+    <!-- Core Simphony DLLs (required) -->
+    <Reference Include="ops, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ops.dll</HintPath>
+    </Reference>
+
+    <Reference Include="opsui, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\opsui.dll</HintPath>
+    </Reference>
+
+    <Reference Include="poscore, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\poscore.dll</HintPath>
+    </Reference>
+
+    <Reference Include="PosCommonClasses, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\PosCommonClasses.dll</HintPath>
+    </Reference>
+
+    <!-- Database DLL (if using database) -->
+    <Reference Include="EGatewayDB, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\EGatewayDB.dll</HintPath>
+    </Reference>
+
+    <!-- Simphony utilities (optional but common) -->
+    <Reference Include="SimphonyUtilities">
+      <HintPath>..\lib\SimphonyUtilities.dll</HintPath>
+    </Reference>
+
+    <!-- .NET Framework references -->
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+
+    <!-- WPF references (if using UI) -->
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+
+    <!-- Additional references as needed -->
+    <!-- <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference> -->
+  </ItemGroup>
+
+  <!-- ================================================================ -->
+  <!-- SOURCE FILES -->
+  <!-- Add your .cs files here -->
+  <!-- ================================================================ -->
+  <ItemGroup>
+    <!-- Core Application -->
+    <Compile Include="SimphonyExtensibilityApplication.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+
+    <!-- Dependency Management -->
+    <Compile Include="Dependency\DependencyManager.cs" />
+    <Compile Include="Dependency\DependencyNameAttribute.cs" />
+    <Compile Include="Dependency\SimphonyDependencies.cs" />
+
+    <!-- Contracts -->
+    <Compile Include="Contracts\IScript.cs" />
+    <Compile Include="Contracts\Logging\ILogManager.cs" />
+    <Compile Include="Contracts\Logging\ILogger.cs" />
+    <Compile Include="Contracts\Clients\IConfigurationClient.cs" />
+    <Compile Include="Contracts\Clients\IOpsContextClient.cs" />
+    <!-- Add more contract files -->
+
+    <!-- Entities -->
+    <Compile Include="Entities\Config.cs" />
+    <Compile Include="Entities\Status.cs" />
+    <Compile Include="Entities\WorkstationInfo.cs" />
+    <!-- Add more entity files -->
+
+    <!-- Logging -->
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\Level.cs" />
+    <Compile Include="Logging\Console\ConsoleLogger.cs" />
+    <Compile Include="Logging\FileLog\FileLogger.cs" />
+    <Compile Include="Logging\EGateway\EGatewayLogger.cs" />
+
+    <!-- Helpers -->
+    <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="Helpers\SimphonyEventHelper.cs" />
+    <Compile Include="Helpers\SimphonyOpsCommandArguments.cs" />
+    <Compile Include="Helpers\VersionHelper.cs" />
+    <!-- Add more helper files -->
+
+    <!-- Clients -->
+    <Compile Include="Clients\Configuration\SimphonyConfigurationClient.cs" />
+    <Compile Include="Clients\OpsContext\SimphonyOpsContextClient.cs" />
+    <!-- Add more client files -->
+
+    <!-- Factories -->
+    <Compile Include="Factories\DbConnections\SimphonyDbConnectionFactory.cs" />
+    <!-- Add more factory files -->
+
+    <!-- Scripts -->
+    <Compile Include="Scripts\Version.cs" />
+    <!-- Add your business logic scripts here -->
+
+    <!-- Serializers -->
+    <Compile Include="Serializers\JsonSerializer.cs" />
+    <!-- Add more serializer files if needed -->
+
+    <!-- Optional: Event Handlers -->
+    <!-- <Compile Include="EventHandlers\MyEventHandler.cs" /> -->
+
+    <!-- Optional: Services -->
+    <!-- <Compile Include="Services\MyBackgroundService.cs" /> -->
+  </ItemGroup>
+
+  <!-- ================================================================ -->
+  <!-- IMPORT MICROSOFT TARGETS -->
+  <!-- ================================================================ -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <!-- ================================================================ -->
+  <!-- POST-BUILD EVENT - AUTO-DEPLOY TO SIMPHONY -->
+  <!-- Universal pattern - IDENTICAL across all 5 projects -->
+  <!-- ================================================================ -->
+  <PropertyGroup>
+    <PostBuildEvent>
+      <!-- Remove read-only attribute from target DLL -->
+      if $(ConfigurationName) == Debug attrib -r "C:\Micros\Simphony\WebServer\wwwroot\EGateway\Handlers\ExtensionApplications\$(ProjectName)\$(TargetFileName)"
+
+      <!-- Copy DLL to Simphony extension directory -->
+      if $(ConfigurationName) == Debug copy  "$(TargetFileName)" "C:\Micros\Simphony\WebServer\wwwroot\EGateway\Handlers\ExtensionApplications\$(ProjectName)\$(TargetFileName)"
+
+      <!-- Set read-only attribute on target DLL -->
+      if $(ConfigurationName) == Debug attrib +r "C:\Micros\Simphony\WebServer\wwwroot\EGateway\Handlers\ExtensionApplications\$(ProjectName)\$(TargetFileName)"
+
+      <!-- Copy PDB file for debugging -->
+      if $(ConfigurationName) == Debug copy  "$(TargetName).pdb" "C:\Micros\Simphony\WebServer\wwwroot\EGateway\Handlers\ExtensionApplications\$(ProjectName)\$(TargetName).pdb"
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
+
+<!--
+============================================================================
+SETUP INSTRUCTIONS
+============================================================================
+
+1. COPY SIMPHONY DLLs:
+   - Create /lib folder in solution root
+   - Copy these DLLs from Simphony installation:
+     * ops.dll
+     * opsui.dll
+     * poscore.dll
+     * PosCommonClasses.dll
+     * EGatewayDB.dll
+     * SimphonyUtilities.dll
+   - These are typically in: C:\Micros\Simphony\WebServer\wwwroot\EGateway\
+
+2. GENERATE PROJECT GUID:
+   - Replace {GENERATE-NEW-GUID-HERE} with a new GUID
+   - Use Visual Studio: Tools > Create GUID
+   - Or use PowerShell: [guid]::NewGuid()
+
+3. REPLACE TOKENS:
+   - YourExtensionName: Your extension's name
+   - YourNamespace: Your root namespace
+   - $(ProjectName) will automatically be YourExtensionName
+
+4. CREATE SIMPHONY DIRECTORY:
+   - Manually create directory before first build:
+     C:\Micros\Simphony\WebServer\wwwroot\EGateway\Handlers\ExtensionApplications\YourExtensionName\
+   - Or modify PostBuildEvent to create directory
+
+5. BUILD PROJECT:
+   - Build in Debug mode
+   - PostBuildEvent will automatically deploy DLL to Simphony
+
+============================================================================
+POST-BUILD EVENT EXPLANATION
+============================================================================
+
+The PostBuildEvent does:
+1. Remove read-only attribute from existing DLL (Simphony sets this)
+2. Copy new DLL to Simphony extension directory
+3. Set read-only attribute (Simphony convention for deployed extensions)
+4. Copy PDB file for debugging
+
+This allows:
+- Automatic deployment on build
+- No manual file copying
+- Debug symbols available for troubleshooting
+
+IMPORTANT:
+- Only deploys in Debug configuration
+- Simphony must be stopped before building (DLL file locking)
+- Or use attrib -r to allow overwriting locked file
+
+============================================================================
+TROUBLESHOOTING
+============================================================================
+
+ERROR: "Cannot copy file because it is being used by another process"
+SOLUTION: Stop Simphony services before building
+  - Stop "Oracle Hospitality Simphony - Service Host"
+  - Or use Process Explorer to close file handle
+
+ERROR: "Access denied"
+SOLUTION: Run Visual Studio as Administrator
+  - Or manually grant write permissions to Simphony directory
+
+ERROR: "Path not found"
+SOLUTION: Create the extension directory first:
+  C:\Micros\Simphony\WebServer\wwwroot\EGateway\Handlers\ExtensionApplications\YourExtensionName\
+
+ERROR: "Could not load file or assembly 'ops'"
+SOLUTION: Ensure Simphony DLLs are in /lib folder
+  - Check HintPath references are correct
+  - Copy DLLs from Simphony installation
+
+============================================================================
+ALTERNATIVE DEPLOYMENT (RELEASE BUILD)
+============================================================================
+
+For Release builds, you may want different behavior:
+
+<PostBuildEvent>
+  <!-- Debug: Auto-deploy to Simphony -->
+  if $(ConfigurationName) == Debug attrib -r "C:\Micros\Simphony\..."
+  if $(ConfigurationName) == Debug copy "$(TargetFileName)" "C:\Micros\Simphony\..."
+
+  <!-- Release: Copy to output folder for packaging -->
+  if $(ConfigurationName) == Release xcopy "$(TargetFileName)" "$(SolutionDir)Deployment\" /Y
+  if $(ConfigurationName) == Release xcopy "*.dll" "$(SolutionDir)Deployment\" /Y
+</PostBuildEvent>
+
+============================================================================
+ADDITIONAL CONFIGURATION OPTIONS
+============================================================================
+
+C# LANGUAGE VERSION (for newer features like primary constructors):
+
+<PropertyGroup>
+  <LangVersion>latest</LangVersion>
+  <!-- Or specific version: <LangVersion>12.0</LangVersion> -->
+</PropertyGroup>
+
+Note: .NET Framework 4.6.2 supports up to C# 7.3 by default.
+Using 'latest' requires newer compiler, may not work on all build servers.
+
+CONDITIONAL COMPILATION SYMBOLS:
+
+<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+  <DefineConstants>DEBUG;TRACE;USE_STUBS</DefineConstants>
+</PropertyGroup>
+
+Usage in code:
+#if USE_STUBS
+  DependencyManager.RegisterByType<IOpsContextClient, StubOpsContextClient>();
+#else
+  DependencyManager.RegisterByType<IOpsContextClient, SimphonyOpsContextClient>();
+#endif
+
+-->
