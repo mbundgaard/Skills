@@ -13,10 +13,7 @@ Each skill is built from analysis of production codebases and validated across m
 ### Enterprise Integration
 - **[Simphony Extension Application Development](./simphony-extension-development/)** - Comprehensive patterns for Oracle Simphony POS integration development based on analysis of 6 production projects (721 C# files)
 
-### Coming Soon
-- **API Integration Patterns** - RESTful service integration best practices
-- **Enterprise Database Design** - Scalable data architecture patterns
-- **Microservices Communication** - Inter-service messaging and orchestration
+
 
 ## Getting Started
 
