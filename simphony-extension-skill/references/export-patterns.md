@@ -2,7 +2,7 @@
 
 Reference guide for implementing check export, data transformation, and external system integration in Simphony Extension Applications.
 
-**Source:** SspSaviaExport project analysis (133 files, 11 scripts, medium-high complexity)
+**Source:** Production export integration project analysis (medium-high complexity)
 
 ---
 
@@ -10,7 +10,7 @@ Reference guide for implementing check export, data transformation, and external
 
 ### Problem
 Export systems need to support multiple destination formats and protocols:
-- Different export processors for different systems (Savia, generic JSON, XML)
+- Different export processors for different systems (external APIs, generic JSON, XML)
 - Ability to add new export types without modifying core code
 - Configuration-driven processor selection
 - Multiple processors active simultaneously
@@ -39,55 +39,55 @@ public interface IExportProcessor
 **Multiple export processor implementations:**
 
 ```csharp
-public class SaviaExportProcessor : IExportProcessor
+public class ExternalApiExportProcessor : IExportProcessor
 {
     private readonly ILogManager _logger;
     private readonly HttpClient _httpClient;
     private readonly Config _config;
 
-    public SaviaExportProcessor(ILogManager logger, IConfigurationClient configClient)
+    public ExternalApiExportProcessor(ILogManager logger, IConfigurationClient configClient)
     {
         _logger = logger;
         _config = configClient.ReadConfig();
 
         _httpClient = new HttpClient
         {
-            BaseAddress = new Uri(_config.SaviaApiUrl),
+            BaseAddress = new Uri(_config.ExternalApiUrl),
             Timeout = TimeSpan.FromSeconds(30)
         };
     }
 
-    public string Name => "Savia";
+    public string Name => "ExternalApi";
 
     public ExportResult ProcessExport(CheckData checkData)
     {
         try
         {
-            _logger.LogInfo($"Exporting check {checkData.CheckNumber} to Savia");
+            _logger.LogInfo($"Exporting check {checkData.CheckNumber} to external API");
 
-            // Transform to Savia-specific format
-            var saviaData = TransformToSaviaFormat(checkData);
+            // Transform to API-specific format
+            var apiData = TransformToApiFormat(checkData);
 
             // Serialize to JSON
-            var json = JsonSerializer.Serialize(saviaData);
+            var json = JsonSerializer.Serialize(apiData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // POST to Savia API
+            // POST to external API
             var response = _httpClient.PostAsync("/api/checks", content).Result;
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorBody = response.Content.ReadAsStringAsync().Result;
-                throw new Exception($"Savia API error: {response.StatusCode} - {errorBody}");
+                throw new Exception($"External API error: {response.StatusCode} - {errorBody}");
             }
 
-            _logger.LogInfo($"Successfully exported check {checkData.CheckNumber} to Savia");
+            _logger.LogInfo($"Successfully exported check {checkData.CheckNumber} to external API");
 
             return new ExportResult { Success = true };
         }
         catch (Exception e)
         {
-            _logger.LogException($"Error exporting to Savia", e);
+            _logger.LogException($"Error exporting to external API", e);
             return new ExportResult
             {
                 Success = false,
@@ -96,14 +96,14 @@ public class SaviaExportProcessor : IExportProcessor
         }
     }
 
-    private SaviaCheckData TransformToSaviaFormat(CheckData checkData)
+    private ExternalApiCheckData TransformToApiFormat(CheckData checkData)
     {
-        // Savia-specific transformation logic
-        return new SaviaCheckData
+        // API-specific transformation logic
+        return new ExternalApiCheckData
         {
             CheckId = checkData.CheckNumber.ToString(),
             Timestamp = checkData.CloseTime,
-            Items = checkData.MenuItems.Select(item => new SaviaItem
+            Items = checkData.MenuItems.Select(item => new ExternalApiItem
             {
                 ItemCode = item.MenuItemNumber.ToString(),
                 Quantity = item.Quantity,
@@ -184,7 +184,7 @@ public class XmlExportProcessor : IExportProcessor
 // In SimphonyDependencies.Install():
 
 // Register all export processors with named registration
-DependencyManager.RegisterByType<IExportProcessor, SaviaExportProcessor>(nameof(SaviaExportProcessor));
+DependencyManager.RegisterByType<IExportProcessor, ExternalApiExportProcessor>(nameof(ExternalApiExportProcessor));
 DependencyManager.RegisterByType<IExportProcessor, GenericJsonExportProcessor>(nameof(GenericJsonExportProcessor));
 DependencyManager.RegisterByType<IExportProcessor, XmlExportProcessor>(nameof(XmlExportProcessor));
 ```

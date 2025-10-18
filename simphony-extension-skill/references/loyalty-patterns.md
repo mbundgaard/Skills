@@ -2,7 +2,7 @@
 
 Reference guide for implementing loyalty programs and stored value card management in Simphony Extension Applications.
 
-**Source:** SovinoLoyalty project analysis (115 files, 4 scripts, medium complexity)
+**Source:** Production loyalty integration project analysis (medium complexity)
 
 ---
 

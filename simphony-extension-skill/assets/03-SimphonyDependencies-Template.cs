@@ -162,12 +162,12 @@ namespace YourNamespace.Dependency
             // DependencyManager.RegisterByType<IEmailClient, SendGridEmailClient>();
 
             // Example: Loyalty client
-            // DependencyManager.RegisterByType<ILoyaltyClient, SovinoLoyaltyClient>();
+            // DependencyManager.RegisterByType<ILoyaltyClient, LoyaltyClient>();
             // With stub for testing:
             // #if DEBUG
             //     DependencyManager.RegisterByType<ILoyaltyClient, StubLoyaltyClient>();
             // #else
-            //     DependencyManager.RegisterByType<ILoyaltyClient, SovinoLoyaltyClient>();
+            //     DependencyManager.RegisterByType<ILoyaltyClient, LoyaltyClient>();
             // #endif
 
             // Example: External API client
@@ -243,7 +243,7 @@ namespace YourNamespace.Dependency
  *     DependencyManager.RegisterByType<IConfigurationClient, SimphonyConfigurationClient>();
  *     DependencyManager.RegisterByType<IOpsContextClient, SimphonyOpsContextClient>();
  *     DependencyManager.RegisterByType<IDatabaseClient, DatabaseClient>();
- *     DependencyManager.RegisterByType<ILoyaltyClient, SovinoLoyaltyClient>();
+ *     DependencyManager.RegisterByType<ILoyaltyClient, LoyaltyClient>();
  *     DependencyManager.RegisterByType<IStoredValueClient, StoredValueClient>();
  *     DependencyManager.RegisterByType<IEmailClient, SendGridEmailClient>();
  *
@@ -313,7 +313,7 @@ namespace YourNamespace.Dependency
  * #else
  *     // Use real implementations in release
  *     DependencyManager.RegisterByType<IOpsContextClient, SimphonyOpsContextClient>();
- *     DependencyManager.RegisterByType<ILoyaltyClient, SovinoLoyaltyClient>();
+ *     DependencyManager.RegisterByType<ILoyaltyClient, LoyaltyClient>();
  * #endif
  */
 

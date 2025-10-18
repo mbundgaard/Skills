@@ -2,7 +2,7 @@
 
 Reference guide for implementing time-keeping and employee labor tracking functionality in Simphony Extension Applications.
 
-**Source:** MunerisTimeKeeping project analysis (80 files, 6 scripts, medium complexity)
+**Source:** Production timekeeping integration project analysis (medium complexity)
 
 ---
 

@@ -112,7 +112,7 @@ namespace YourNamespace.Contracts
     // VARIANT 2: SIMPLIFIED INTERFACE (Execute only)
     // ========================================================================
     // Use when: 5-15 scripts, no event handling in scripts
-    // Example projects: SspLiquidDispenseSystem (2 scripts), SspSaviaExport (11 scripts), SovinoLoyalty (4 scripts)
+    // Example projects: Dispense (2 scripts), Export (11 scripts), Loyalty (4 scripts)
     // Complexity: MEDIUM
     // MOST COMMON VARIANT (3 of 5 projects use this)
 
@@ -203,7 +203,7 @@ namespace YourNamespace.Contracts
     // VARIANT 3: OBJECT ARGUMENT (Execute with object)
     // ========================================================================
     // Use when: 1-10 single-purpose scripts (one function per script)
-    // Example project: MunerisTimeKeeping (6 scripts)
+    // Example project: Timekeeping (6 scripts)
     // Complexity: LOW (with AbstractScript auto-dispatch)
     // MODERN VARIANT (reduces boilerplate)
 

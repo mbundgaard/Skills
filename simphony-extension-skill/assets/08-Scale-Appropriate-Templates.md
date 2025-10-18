@@ -6,9 +6,9 @@
 
 | Size | Scripts | Events | Config Lines | Example Projects |
 |------|---------|--------|--------------|------------------|
-| **Simple** | 2-5 | 1-5 | 10-20 (flat) | SspLiquidDispenseSystem |
-| **Medium** | 5-15 | 5-15 | 50-100 (nested) | SovinoLoyalty, SspSaviaExport, MunerisTimeKeeping |
-| **Complex** | 15+ | 15+ | 200+ (deep) | SimphonyOpsHelper |
+| **Simple** | 2-5 | 1-5 | 10-20 (flat) | Dispense integration |
+| **Medium** | 5-15 | 5-15 | 50-100 (nested) | Loyalty, Export, Timekeeping |
+| **Complex** | 15+ | 15+ | 200+ (deep) | Multi-domain operations |
 
 ---
 

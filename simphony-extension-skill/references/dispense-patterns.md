@@ -2,7 +2,7 @@
 
 Reference guide for implementing simple, focused integrations with direct POS posting operations in Simphony Extension Applications.
 
-**Source:** SspLiquidDispenseSystem project analysis (44 files, 2 scripts, low complexity)
+**Source:** Production dispense integration project analysis (low complexity)
 
 ---
 
