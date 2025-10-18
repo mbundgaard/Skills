@@ -2,6 +2,8 @@
 
 Production-validated development patterns and specialized knowledge for enterprise software development.
 
+> **DISCLAIMER**: This is an experimental first attempt at building a Claude Code skill. While the patterns are based on production codebases, this skill is provided as-is without warranty. Community input and contributions are welcome! Use at your own risk and always review generated code before deploying to production environments.
+
 ## What are Skills?
 
 Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. These skills teach Claude how to complete specific development tasks in a repeatable way, following production-validated patterns and best practices from real enterprise codebases.
