@@ -2,7 +2,7 @@
 
 Production-validated development patterns and specialized knowledge for enterprise software development.
 
-> **DISCLAIMER**: This is an experimental first attempt at building a Claude Code skill. While the patterns are based on production codebases, this skill is provided as-is without warranty. Community input and contributions are welcome! Use at your own risk and always review generated code before deploying to production environments.
+> **DISCLAIMER**: This is an experimental first attempt at building Claude Code skills. While the patterns are based on production codebases, these skills are provided as-is without warranty. Community input and contributions are welcome! Use at your own risk and always review generated code before deploying to production environments.
 
 ## What are Skills?
 
