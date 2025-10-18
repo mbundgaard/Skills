@@ -1,7 +1,7 @@
 {
-  "name": "enterprise-development-skills",
+  "name": "enterprise-software-development",
   "owner": {
-    "name": "mbundgaard",
+    "name": "Martin Bundgaard",
     "email": "mb@muneris.dk"
   },
   "metadata": {
@@ -10,8 +10,8 @@
   },
   "plugins": [
     {
-      "name": "enterprise-integration-skills",
-      "description": "Collection of enterprise integration patterns and templates for various platforms and technologies",
+      "name": "skills",
+      "description": "Collection of integration patterns and templates for various platforms and technologies",
       "source": "./",
       "strict": false,
       "skills": [

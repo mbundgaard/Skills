@@ -1,44 +1,52 @@
-﻿# Enterprise Development Skills
+﻿# Enterprise Software Development Skills
 
 Production-validated development patterns and specialized knowledge for enterprise software development.
 
+## What are Skills?
+
+Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks. These skills teach Claude how to complete specific development tasks in a repeatable way, following production-validated patterns and best practices from real enterprise codebases.
+
+For more information about skills in Claude Code, check out:
+- [What are skills?](https://support.claude.com/en/articles/12512176-what-are-skills)
+- [Using skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+- [Creating custom skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
+
 ## Installation
 
-Add this marketplace to Claude Code:
+First, add this marketplace to Claude Code:
 ```bash
 /plugin marketplace add mbundgaard/Skills
 ```
 
-## Available Plugins
-
-### Enterprise Integration Skills
-**Description:** Comprehensive patterns for Oracle Simphony Extension Application development  
-**Categories:** POS Integration, Enterprise, C#/.NET  
-**Install:**
+Then install the skills plugin:
 ```bash
-/plugin install enterprise-integration-skills@enterprise-development-skills
+/plugin install skills@enterprise-software-development
 ```
 
+## Usage
+
+Once installed, you can use any skill by simply mentioning it in your conversation with Claude Code. For example:
+
+```
+"Use the Simphony Extension skill to help me implement a new POS integration"
+```
+
+Claude will automatically load the skill and apply the relevant patterns and best practices to your task.
+
+## Available Skills
+
+### Simphony Extension Development
+Comprehensive patterns for Oracle Simphony Extension Application development covering POS Integration, Enterprise, and C#/.NET.
+
 **What you get:**
-- Universal mandatory patterns validated across 6 production projects (721 C# files)
 - Copy-paste ready templates and code examples
 - Domain-specific implementation guides
 - Scale-appropriate pattern selection
 - Anti-pattern identification and best practices
 
-**Repository:** https://github.com/mbundgaard/Skills
+**Categories:** POS Integration, Enterprise, C#/.NET
 
 ---
-
-## Marketplace Structure
-
-```
-enterprise-development-skills/
-├── .claude-plugin/
-│   └── marketplace.json       # Plugin catalog
-├── simphony-extension-skill/   # Simphony Extension patterns
-└── README.md                  # This file
-```
 
 ## Quality Standards
 
