@@ -12,15 +12,36 @@ Comprehensive patterns and templates for Oracle Simphony Extension Application d
 Every Simphony Extension Application follows this exact workflow:
 
 1. **Create universal 11-folder structure** - See `assets/00-ProjectStructure-Template.md`
-2. **Copy ApplicationFactory template** - Use `assets/01-ApplicationFactory-Template.cs`
-3. **Set up dependency injection** - Use `assets/02-DependencyManager-Template.cs`
-4. **Choose scale-appropriate IScript variant** - Based on script count (see Pattern Selection below)
-5. **Configure logging framework** - Use `assets/05-Logging-Framework-Template.cs`
-6. **Register dependencies** - Complete `assets/03-SimphonyDependencies-Template.cs`
+2. **Copy SimphonyExtensibilityApplication.cs to project root** - Use `assets/01-SimphonyExtensibilityApplication-Template.cs`
+   - This file contains ApplicationFactory, SimphonyExtensionApplicationService, and main application class
+   - **The ONLY section you modify is Event Registration** - customize which Simphony events to handle
+3. **Set up OpsContextClient** - Use `assets/09-IOpsContextClient-Template.cs` and `assets/10-SimphonyOpsContextClient-Template.cs`
+   - Interface goes in `Contracts/Clients/IOpsContextClient.cs`
+   - Implementation goes in `Clients/OpsContext/SimphonyOpsContextClient.cs`
+   - Start with 6 essential methods, expand as needed
+4. **Set up Configuration** - Use templates `assets/11-IConfigurationClient-Template.cs` through `assets/15-Config-Entity-Template.cs`
+   - Define your config entity in `Entities/Configuration/YourConfig.cs`
+   - Create interface in `Contracts/Clients/IConfigurationClient.cs`
+   - Implement 3 clients: Simphony (production), File (fallback), Stub (testing)
+5. **Set up Scripts** - Use templates `assets/16-IScript-Template.cs` through `assets/20-Script-Examples-Template.cs`
+   - Copy IScript interface to `Contracts/IScript.cs`
+   - Copy AbstractScript base class to `Scripts/AbstractScript.cs`
+   - **ALWAYS include Version script** (`Scripts/Version.cs`) for troubleshooting
+   - Copy VersionHelper to `Helpers/VersionHelper.cs`
+   - Create your business logic scripts inheriting from AbstractScript
+6. **Set up dependency injection** - Use `assets/02-DependencyManager-Template.cs`
+7. **Configure logging framework** - Use `assets/05-Logging-Framework-Template.cs`
+8. **Register dependencies** - Complete `assets/03-SimphonyDependencies-Template.cs`
+9. **Deploy to EMC** - See `references/deployment-patterns.md`
+   - Create Extension Application in EMC (Enterprise Management Console)
+   - Upload DLL as Application Content with **DiskFile name** (MANDATORY)
+   - Upload configuration XML and other files as needed
+   - **Remember: Must restart Simphony to activate new/updated DLL**
+   - Verify deployment with Version script
 
 ## Universal Mandatory Patterns
 
-These 12 patterns are required in every Extension Application:
+These 15 patterns are required in every Extension Application:
 
 ### 1. Exact Directory Structure
 Create exactly these 11 folders:
@@ -39,28 +60,68 @@ YourExtension/
 └── Properties/        - Assembly information
 ```
 
-### 2. ApplicationFactory Pattern
-Use exact pattern from `assets/01-ApplicationFactory-Template.cs`:
-- Implements `IExtensibilityAssemblyFactory`
-- Handles initialization sequence: DI → Status → Logger → Config → Events
+### 2. SimphonyExtensibilityApplication.cs at Project Root
+Use exact pattern from `assets/01-SimphonyExtensibilityApplication-Template.cs`:
+- **Must be placed at the root of the extension project**
+- Contains three classes: `SimphonyExtensionApplicationService`, `ApplicationFactory`, and `SimphonyExtensibilityApplication`
+- Implements `IExtensibilityAssemblyFactory` via ApplicationFactory
+- Handles initialization sequence: ExecutionContext → DI → Logger → Event Registration
+- **Event Registration is the ONLY section that varies** between extensions
 - Robust exception handling with `ExceptionHelper.GetFirstException`
+- CallFunc method handles button clicks using `SimphonyOpsCommandArguments` parsing
 
-### 3. Custom DI Container
+### 3. OpsContextClient - Simphony Interaction Layer
+Use templates `assets/09-IOpsContextClient-Template.cs` and `assets/10-SimphonyOpsContextClient-Template.cs`:
+- **Critical abstraction** for all Simphony POS interactions
+- Interface defines contract (`Contracts/Clients/IOpsContextClient.cs`)
+- Implementation provides thread-safe operations (`Clients/OpsContext/SimphonyOpsContextClient.cs`)
+- **MANDATORY: All OpsContext calls MUST use `Invoke()` wrapper** for thread safety
+- Start with 6 essential methods: ShowMessage, ShowError, AskQuestion, GetAmountInput, GetTextInput, SelectFromList
+- Expand interface and implementation as extension needs grow
+- Registered in DI container for dependency injection
+
+### 4. Configuration Client - Extension Settings Management
+Use templates `assets/11-IConfigurationClient-Template.cs` through `assets/15-Config-Entity-Template.cs`:
+- **Interface + 3 implementations** pattern for flexibility
+- **Configuration entity** defines XML structure (`Entities/Configuration/YourConfig.cs`)
+- **SimphonyConfigurationClient** - Production: reads from Simphony DataStore Extension Application Content
+- **FileConfigurationClient** - Fallback: reads from local XML file
+- **StubConfigurationClient** - Testing: creates default config in code
+- Configuration stored as XML with hierarchical support (RVC-level zoning)
+- Always use default initializers on collections to prevent null references
+- Use `XmlAttribute` for compact XML, nested classes for hierarchical config
+- Common config entities: Event (event-to-script mapping), Timer (cron-based scheduling)
+- **Pattern**: See `references/configuration-patterns.md`
+
+### 5. Scripts - Business Logic Layer
+Use templates `assets/16-IScript-Template.cs` through `assets/20-Script-Examples-Template.cs`:
+- **IScript interface** - Universal interface all scripts implement (`Contracts/IScript.cs`)
+- **AbstractScript base class** - Provides automatic method routing and config caching (`Scripts/AbstractScript.cs`)
+- **Automatic method routing** - Reflection-based dispatch eliminates manual switch statements
+- **Configuration caching** - 10-minute cache with auto-refresh via `Config` property
+- **Dual entry points** - `Execute()` for button clicks, `Event()` for Simphony events
+- **Flexible parameters** - Methods can have 0, 1, or 2 parameters
+- **Version script** - ALWAYS include for troubleshooting deployment verification
+- **VersionHelper** - Provides assembly version, build time, environment info
+- Scripts inherit from AbstractScript, never implement IScript directly
+- **Pattern**: See `references/script-patterns.md`
+
+### 6. Custom DI Container
 Use validated `DependencyManager` from `assets/02-DependencyManager-Template.cs`:
 - Conditional registration (debug vs release)
 - Named dependencies for multiple implementations
 - Thread-safe singleton pattern
 
-### 4. Interface-First Design
+### 7. Interface-First Design
 Abstract ALL external dependencies behind interfaces in `Contracts/` folder
 
-### 5. Multi-Sink Logging Framework
+### 8. Multi-Sink Logging Framework
 Implement from `assets/05-Logging-Framework-Template.cs`:
 - ConsoleLogger, FileLogger, EGatewayLogger
 - Debug file control (`debug.txt` presence enables debug logging)
 - Structured logging with LogEntry and Level classes
 
-### 6. Automated Build Deployment
+### 9. Automated Build Deployment
 Configure PostBuildEvent in `assets/07-ProjectFile-Template.csproj` for automatic POS deployment
 
 ## Pattern Selection Guide
@@ -149,7 +210,16 @@ Autonomous data bridging using Simphony as runtime host.
    ```
 
 2. **Core Foundation**
-   - Copy `assets/01-ApplicationFactory-Template.cs` → customize namespace
+   - Copy `assets/01-SimphonyExtensibilityApplication-Template.cs` to project root → customize namespace and Event Registration section only
+   - Copy `assets/09-IOpsContextClient-Template.cs` to `Contracts/Clients/` → start with 6 methods, expand as needed
+   - Copy `assets/10-SimphonyOpsContextClient-Template.cs` to `Clients/OpsContext/` → implement interface methods
+   - Copy `assets/15-Config-Entity-Template.cs` to `Entities/Configuration/` → define your config structure
+   - Copy `assets/11-IConfigurationClient-Template.cs` to `Contracts/Clients/` → interface for config access
+   - Copy `assets/12-SimphonyConfigurationClient-Template.cs`, `13-FileConfigurationClient-Template.cs`, `14-StubConfigurationClient-Template.cs` to `Clients/Configuration/`
+   - Copy `assets/16-IScript-Template.cs` to `Contracts/` → script interface
+   - Copy `assets/17-AbstractScript-Template.cs` to `Scripts/` → script base class
+   - Copy `assets/18-Version-Script-Template.cs` to `Scripts/` → **ALWAYS include for troubleshooting**
+   - Copy `assets/19-VersionHelper-Template.cs` to `Helpers/` → customize extension name
    - Copy `assets/02-DependencyManager-Template.cs` → no changes needed
    - Copy `assets/03-SimphonyDependencies-Template.cs` → add your registrations
 
@@ -227,7 +297,7 @@ Use these proven helpers from `assets/06-Helper-Templates.cs`:
 ### assets/
 Copy-paste ready templates and complete implementations:
 - `00-ProjectStructure-Template.md` - Directory structure guide
-- `01-ApplicationFactory-Template.cs` - Complete main entry point  
+- `01-SimphonyExtensibilityApplication-Template.cs` - **Complete application entry point (place at project root)**
 - `02-DependencyManager-Template.cs` - Custom DI container
 - `03-SimphonyDependencies-Template.cs` - Dependency registration
 - `04-IScript-Variants-Template.cs` - All IScript implementations
@@ -235,9 +305,24 @@ Copy-paste ready templates and complete implementations:
 - `06-Helper-Templates.cs` - Utility classes
 - `07-ProjectFile-Template.csproj` - Project configuration
 - `08-Scale-Appropriate-Templates.md` - Pattern selection guide
+- `09-IOpsContextClient-Template.cs` - **OpsContext interface (6 essential methods)**
+- `10-SimphonyOpsContextClient-Template.cs` - **OpsContext implementation with thread-safe Invoke wrapper**
+- `11-IConfigurationClient-Template.cs` - **Configuration interface**
+- `12-SimphonyConfigurationClient-Template.cs` - **Production config client (reads from DataStore)**
+- `13-FileConfigurationClient-Template.cs` - **File-based config client (fallback)**
+- `14-StubConfigurationClient-Template.cs` - **Stub config client (testing)**
+- `15-Config-Entity-Template.cs` - **Configuration entity with Event/Timer examples**
+- `16-IScript-Template.cs` - **IScript interface (universal script interface)**
+- `17-AbstractScript-Template.cs` - **AbstractScript base class with automatic routing**
+- `18-Version-Script-Template.cs` - **Version script (ALWAYS include for troubleshooting)**
+- `19-VersionHelper-Template.cs` - **VersionHelper for assembly version info**
+- `20-Script-Examples-Template.cs` - **6 example script patterns**
 
-### references/  
-Domain-specific implementation patterns:
+### references/
+Universal and domain-specific implementation patterns:
+- `configuration-patterns.md` - **Configuration management (Interface + 3 implementations pattern)**
+- `script-patterns.md` - **Script implementation (IScript + AbstractScript pattern)**
+- `deployment-patterns.md` - **Deployment and distribution (EMC, instantiation lifecycle, troubleshooting)**
 - `timekeeping-patterns.md` - Time-keeping and compliance patterns
 - `loyalty-patterns.md` - Customer management and stored value
 - `export-patterns.md` - Data processing and ETL patterns

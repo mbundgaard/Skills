@@ -1048,9 +1048,3 @@ These domain patterns build on universal Simphony Extension Application patterns
 4. **Database helpers reduce errors** - Fluent query builders prevent SQL injection
 5. **Cross-domain clients enable reuse** - Share domain logic across scripts
 6. **Rollback capability is essential** - Complex workflows need transactional behavior
-
----
-
-**Source Project:** SimphonyOpsHelper (230 files, 24 scripts, high complexity)
-**Domain Focus:** Multi-domain orchestration and complex operations
-**Pattern Confidence:** High (validated in production environment)

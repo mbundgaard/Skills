@@ -1170,9 +1170,3 @@ These domain patterns build on universal Simphony Extension Application patterns
 4. **Real-time balance validation** - Always check balance before redemption
 5. **Audit trail everything** - Log all loyalty transactions for compliance
 6. **Multiple lookup methods** - Support ID, card, phone, email searches
-
----
-
-**Source Project:** SovinoLoyalty (115 files, 4 scripts, medium complexity)
-**Domain Focus:** Loyalty programs and stored value card management
-**Pattern Confidence:** High (validated in production environment)

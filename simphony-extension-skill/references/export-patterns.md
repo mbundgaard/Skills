@@ -1213,9 +1213,3 @@ These domain patterns build on universal Simphony Extension Application patterns
 4. **Status tracking enables monitoring** - Track export progress and enable retries
 5. **Mapping configuration is essential** - External codes for menu items, discounts, tenders
 6. **Error resilience is critical** - Retry logic, status tracking, error logging
-
----
-
-**Source Project:** SspSaviaExport (133 files, 11 scripts, medium-high complexity)
-**Domain Focus:** Check export and external system integration
-**Pattern Confidence:** High (validated in production environment)
