@@ -37,7 +37,7 @@ Claude will automatically load the skill and apply the relevant patterns and bes
 
 ## Available Skills
 
-### Simphony Extension Development
+### [Simphony Extension Development](./simphony-extension-skill)
 Comprehensive patterns for Oracle Simphony Extension Application development covering POS Integration, Enterprise, and C#/.NET.
 
 **What you get:**
